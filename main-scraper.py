@@ -21,3 +21,12 @@ headers = {os.getenv('AGENT') : os.getenv('DATA')}
 req = requests.get(url, headers = headers)
 soup = BeautifulSoup(req.content, 'html.parser')
 first = soup.find_all('article', class_ = 'stack-system ps-stack')
+for laptop in first:
+    data_html = laptop.find_all('span', class_ = 'ps-iconography-specs-label')
+    data = [i.text.lstrip().rstrip() for i in data_html]
+    name = laptop.find('h3', class_ = 'ps-title').text.split('\n')
+    price = laptop.find('div', class_ = 'ps-dell-price ps-simplified').text.split('$')
+
+
+
+    print(name[1], price[1].rstrip(), data[0], data[1], data[2], data[3], data[4], data[5])
