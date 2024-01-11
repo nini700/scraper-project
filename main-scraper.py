@@ -18,8 +18,8 @@ class Laptop(BaseModel):
     @field_validator('curr_price', mode = 'before')
     def price_valid(cls, value):
         if isinstance(value, str):
-            value.replace(',', '')
-            return float(value)
+            fixed = value.replace(',', '')
+            return float(fixed)
         elif isinstance(value, float):
             return value
         else:
@@ -44,7 +44,8 @@ while True:
     req = get_NextPage(url, soup)
     if not req:
         break
-    for laptop in first:
+    laptops = soup.find_all('article', class_ = 'stack-system ps-stack')
+    for laptop in laptops:
         data_html = laptop.find_all('span', class_ = 'ps-iconography-specs-label')
         data = [i.text.lstrip().rstrip() for i in data_html]
         name = laptop.find('h3', class_ = 'ps-title').text.split('\n')
